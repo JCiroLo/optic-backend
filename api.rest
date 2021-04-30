@@ -1,0 +1,10 @@
+###
+GET http://localhost:5000/api/glasses/
+
+###
+POST http://localhost:5000/api/glasses/ 
+Content-Type: application/json
+
+{
+    "values": "123"
+}
