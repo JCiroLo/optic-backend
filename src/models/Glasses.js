@@ -22,7 +22,16 @@ const glassesSchema = new Schema({
         type: Number,
         required: true,
         trim: true
+    },
+    discount: {
+        type: Number,
+        default: 0
+    },
+    description: {
+        type: String,
+        required: true,
+        trim: true
     }
-});
+}, { timestamps: true });
 
 module.exports = model("Glasses", glassesSchema);

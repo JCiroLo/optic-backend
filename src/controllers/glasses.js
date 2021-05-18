@@ -4,7 +4,7 @@ const glassesCtrl = {};
 
 glassesCtrl.getGlasses = async (_, res) => {
     try {
-        const allGlasses = await Glasses.find({});
+        const allGlasses = await Glasses.find().sort({ updatedAt: -1 });
         res.json({ stateAction: true, allGlasses });
     } catch (e) {
         res.json({ stateAction: false });
@@ -13,11 +13,13 @@ glassesCtrl.getGlasses = async (_, res) => {
 
 glassesCtrl.createGlasses = async ({ body }, res) => {
     try {
-        const { glassesData } = body;
-        const newGlasses = await new Glasses({ ...glassesData }).save();
+        const { frameData } = body;
+        delete frameData._id, frameData.createdAt, frameData.updatedAt;
+        const newGlasses = await new Glasses({ ...frameData }).save();
         res.json({ stateAction: true, newGlasses: newGlasses._id });
     }
     catch (e) {
+        console.log(e)
         res.json({ stateAction: false });
     }
 }
@@ -34,8 +36,19 @@ glassesCtrl.deleteGlasses = async ({ params }, res) => {
 glassesCtrl.getMountById = async ({ params }, res) => {
     try {
         const mount = await Glasses.findById(params.id);
-        res.json({ mount })
+        if (mount === null) throw "Error";
+        res.json({ stateAction: true, mount })
     } catch (e) {
+        res.json({ stateAction: false });
+    }
+}
+
+glassesCtrl.updateMount = async ({ body, params }, res) => {
+    try {
+        await Glasses.findOneAndUpdate({ _id: params.id }, body)
+        res.json({ stateAction: true })
+    } catch (e) {
+        console.log("Erros")
         res.json({ stateAction: false });
     }
 }

@@ -1,10 +1,9 @@
-const token = process.env.TOKEN;
-
-const Glasses = require("../models/Glasses"); //---------
+const token = 'OP23k';
 
 const tokenCtrl = {};
 
 tokenCtrl.validateToken = ({ body }, res) => {
+    console.log(body.token);
     if (!body.token) {
         res.json({ validate: false });
         return;
